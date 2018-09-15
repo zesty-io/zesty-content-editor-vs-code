@@ -11,14 +11,27 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.sayHello"
+        "onCommand:extension.sayHello",
+        "onLanguage:html",
+        "onLanguage:javascript",
+        "onLanguage:less",
+        "onLanguage:scss",
+        "onLanguage:css"
     ],
     "main": "./extension",
     "contributes": {
         "commands": [
             {
-                "command": "extension.sayHello",
-                "title": "Hello World"
+                "command": "extension.saveView",
+                "title": "Save View"
+            },
+            {
+                "command": "extension.saveStylesheet",
+                "title": "Save Stylesheet"
+            },
+            {
+                "command": "extension.saveScript",
+                "title": "Save Script"
             }
         ]
     },
