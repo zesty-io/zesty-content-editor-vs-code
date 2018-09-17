@@ -6,53 +6,47 @@ const vscode = require('vscode');
 // your extension is activated the very first time the command is executed
 function activate(context) {
 
-    vscode.window.showInformationMessage(`zesty content editor active!`)
+    vscode.window.showInformationMessage(`Zesty content editor active!`)
 
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with  registerCommand
-    // The commandId parameter must match the command field in package.json
+    // The commandId parameter must match the command field in package.json    
+    let workspace = vscode.workspace
+    
+    vscode.commands.registerCommand('extension.saveContent', function() {
+        const fileType = vscode.window.activeTextEditor.document.languageId
+        const configFilename = `zesty.json` 
+        
+        workspace.findFiles(configFilename).then((uris) => {            
+            if (uris.length == 1) {
+                const configFilepath = uris[0].path
+                const configJSON = require(configFilepath) 
+                return configJSON
+            } else {
+                vscode.window.showErrorMessage(`${configFilename} does not exist`)
+                return 
+            }
+        }).then((config) => {
+            switch (fileType) {
+                case "html":
+                    vscode.window.showInformationMessage(`Saving view to ${config.instanceZUID}`);        
+                    break;
+                case "css":
+                case "scss":
+                case "less":
+                    vscode.window.showInformationMessage(`Saving stylesheet to ${config.instanceZUID}`);        
+                    break;
+                case "javascript":
+                    vscode.window.showInformationMessage(`Saving script to ${config.instanceZUID}`);        
+                    break;
+                default:
+                    vscode.window.showInformationMessage(`Unable to save file to ${config.instanceZUID}: wrong filetype`)
+                    break;
+            }
+        })
 
-    vscode.commands.registerCommand('extension.saveView', function(){
-        let fileType =vscode.window.activeTextEditor.document.languageId
-        
-        switch (fileType) {
-            case "html":
-                vscode.window.showInformationMessage('Saving view');        
-                break;
-            default:
-                vscode.window.showInformationMessage("Unable to save file: file type must be javascript")
-                break;
-        }        
-    });
+    })
 
-    vscode.commands.registerCommand('extension.saveStylesheet', function(){
-        let fileType =vscode.window.activeTextEditor.document.languageId
-        
-        switch (fileType) {
-            case "css":
-            case "scss":
-            case "less":
-                vscode.window.showInformationMessage('Saving stylesheet');        
-                break;
-            default:
-                vscode.window.showInformationMessage("Unable to save file: file type must be either css, scss, less")
-                break;
-        }        
-    });
-
-    vscode.commands.registerCommand('extension.saveScript', function(){
-        let fileType =vscode.window.activeTextEditor.document.languageId
-        
-        switch (fileType) {
-            case "javascript":
-                vscode.window.showInformationMessage('Saving script');        
-                break;
-        
-            default:
-                vscode.window.showInformationMessage("Unable to save file: file type must be javascript")
-                break;
-        }        
-    });   
 }
 exports.activate = activate;
 

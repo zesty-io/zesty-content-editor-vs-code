@@ -22,16 +22,15 @@
     "contributes": {
         "commands": [
             {
-                "command": "extension.saveView",
-                "title": "Save View"
-            },
+                "command": "extension.saveContent",
+                "title": "Save Content"
+            }
+        ],
+        "keybindings": [
             {
-                "command": "extension.saveStylesheet",
-                "title": "Save Stylesheet"
-            },
-            {
-                "command": "extension.saveScript",
-                "title": "Save Script"
+                "command": "extension.saveContent",
+                "key": "ctrl+shift+s",
+                "mac": "cmd+shift+s"
             }
         ]
     },
@@ -45,5 +44,8 @@
         "eslint": "^4.11.0",
         "@types/node": "^8.10.25",
         "@types/mocha": "^2.2.42"
+    },
+    "dependencies": {
+        "request": "^2.88.0"
     }
 }
